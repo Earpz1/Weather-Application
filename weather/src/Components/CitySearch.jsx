@@ -41,6 +41,7 @@ const CitySearch = () => {
             <Col lg={2} className="red">
               <div className="contentContainer">
                 <h1 className="cityName mb-3 pt-5">{weatherData.name}</h1>
+
                 <h1 className="cityName">
                   {Math.round(weatherData.main.temp * 10) / 10}c
                 </h1>
