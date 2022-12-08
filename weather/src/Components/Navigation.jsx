@@ -1,9 +1,41 @@
-import { Navbar, Nav, FormControl, Button, Form } from 'react-bootstrap'
+import {
+  Navbar,
+  Nav,
+  FormControl,
+  Button,
+  Form,
+  DropdownButton,
+  Dropdown,
+} from 'react-bootstrap'
+
+import { useDispatch, useSelector } from 'react-redux'
 
 const Navigation = () => {
-  const fns = require('date-fns')
+  const dispatch = useDispatch()
+  const units = useSelector((state) => state.units)
+  const suffix = useSelector((state) => state.suffix)
 
-  const time = fns.format(new Date(), 'dd-MM-yyyy HH:mm:ss')
+  const updateUnits = (value) => {
+    if (value === 'Metric') {
+      dispatch({
+        type: 'UPDATE_SUFFIX',
+        payload: 'c',
+      })
+    } else {
+      dispatch({
+        type: 'UPDATE_SUFFIX',
+        payload: 'f',
+      })
+    }
+
+    dispatch({
+      type: 'UPDATE_UNITS',
+      payload: value,
+    })
+
+    console.log(value)
+  }
+
   return (
     <Navbar bg="primary" variant="dark">
       <img
@@ -11,9 +43,17 @@ const Navigation = () => {
         className="nav-icon mr-3"
       ></img>
       <Navbar.Brand href="#home">What's the Weather?</Navbar.Brand>
-      <Nav className="ml-auto mr-2">
-        <h2>{time} (GMT)</h2>
-      </Nav>
+      <Nav className="ml-auto mr-2"></Nav>
+      <Dropdown onSelect={(event, e) => updateUnits(event, e.target.value)}>
+        <Dropdown.Toggle variant="success" id="dropdown-basic">
+          Temparature Units: {units}
+        </Dropdown.Toggle>
+
+        <Dropdown.Menu>
+          <Dropdown.Item eventKey="Metric">Celsius</Dropdown.Item>
+          <Dropdown.Item eventKey="Imperial">Farenheit</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
     </Navbar>
   )
 }

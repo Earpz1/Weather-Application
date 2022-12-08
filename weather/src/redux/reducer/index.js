@@ -5,6 +5,8 @@ const startingState = {
   weatherDefault: {
     content: [],
   },
+  units: 'Metric',
+  suffix: 'c',
 }
 
 const mainReducer = (state = startingState, action) => {
@@ -13,18 +15,30 @@ const mainReducer = (state = startingState, action) => {
       return {
         ...state,
         weatherSearch: {
-          ...state.weatherSearch,
           content: [...state.weatherSearch.content, action.payload],
         },
       }
-
     case 'SET_WEATHER_DEFAULT':
       return {
         ...state,
         weatherDefault: {
-          ...state.weatherDefault,
-          content: [...state.weatherDefault.content, action.payload],
+          content: [
+            action.payload,
+            ...state.weatherDefault.content.slice(0, 3),
+          ],
         },
+      }
+
+    case 'UPDATE_UNITS':
+      return {
+        ...state,
+        units: action.payload,
+      }
+
+    case 'UPDATE_SUFFIX':
+      return {
+        ...state,
+        suffix: action.payload,
       }
 
     default:
