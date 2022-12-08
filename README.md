@@ -1,10 +1,11 @@
-# Getting Started with Create React App
+# Weather Application
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Search any city supported by the OpenWeatherMap API
+-
 
 ### `npm start`
 
