@@ -1,11 +1,12 @@
 import { Form, Button, ToastBody } from 'react-bootstrap'
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import WeatherCard from './WeatherCard'
 import CitySearch from './CitySearch'
 
 const Search = () => {
   const dispatch = useDispatch()
+  const units = useSelector((state) => state.units)
 
   const [weatherData, setweatherData] = useState('')
   const [Query, setQuery] = useState('')
@@ -17,14 +18,21 @@ const Search = () => {
     setQuery(e.target.value)
   }
 
+  useEffect(() => {
+    fetchWeather(Query)
+  }, [units])
+
   const fetchWeather = async (event) => {
-    event.preventDefault()
+    if (Query === '') {
+      return
+    }
 
     try {
       let response = await fetch(
         'https://api.openweathermap.org/data/2.5/weather?q=' +
           Query +
-          '&appid=8c1b60ad01126a2d8883709df2ba5cdc&u&units=metric',
+          '&appid=8c1b60ad01126a2d8883709df2ba5cdc&u&units=' +
+          units,
       )
       if (!response.ok) {
         throw new Error(`City name not found`)
@@ -47,7 +55,12 @@ const Search = () => {
   return (
     <>
       <div className="d-flex justify-content-center">
-        <Form onSubmit={fetchWeather}>
+        <Form
+          onSubmit={(event) => {
+            event.preventDefault()
+            fetchWeather()
+          }}
+        >
           <Form.Group>
             <Form.Control
               size="lg"

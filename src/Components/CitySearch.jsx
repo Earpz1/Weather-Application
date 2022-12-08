@@ -1,13 +1,14 @@
 import { Carousel } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import { Row, Col } from 'react-bootstrap'
-import { format, compareAsc } from 'date-fns'
 
 const CitySearch = () => {
   const weatherData = useSelector(
     (state) =>
       state.weatherSearch.content[state.weatherSearch.content.length - 1],
   )
+
+  const suffix = useSelector((state) => state.suffix)
 
   const changeBackground = (weather) => {
     let image = ''
@@ -43,12 +44,17 @@ const CitySearch = () => {
                 <h1 className="cityName mb-3 pt-5">{weatherData.name}</h1>
 
                 <h1 className="cityName">
-                  {Math.round(weatherData.main.temp * 10) / 10}c
+                  {Math.round(weatherData.main.temp * 10) / 10}
+                  {suffix}
                 </h1>
                 <h6 className="mt-5">
-                  High: {Math.round(weatherData.main.temp_max * 10) / 10}c
+                  High: {Math.round(weatherData.main.temp_max * 10) / 10}
+                  {suffix}
                 </h6>
-                <h6>Low: {Math.round(weatherData.main.temp_min * 10) / 10}c</h6>
+                <h6>
+                  Low: {Math.round(weatherData.main.temp_min * 10) / 10}
+                  {suffix}
+                </h6>
               </div>
             </Col>
           </Row>
